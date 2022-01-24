@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Auto Tab Light</title>
+    </head>
+    <style>
+        img{
+
+            margin: 200px auto;
+        }
+    </style>
+    <body>
+        <img src = "img/off.gif" id = "light">
+
+        <img src = "img/off.gif" id = "light2">
+
+        <img src = "img/off.gif" id = "light3">
+    </body>
+    <script>
+        var flag = false;
+        var flag2 = false;
+        var flag3 = false;
+        setInterval(tabLight,250);
+        setInterval(tabLight2,260);
+        setInterval(tabLight3,270);
+        function tabLight(){
+            var light = document.getElementById("light");
+            if(!flag){
+                light.src = "img/on.gif";
+                flag = true;
+            }else {
+                light.src = "img/off.gif";
+                flag = false;
+            }
+
+        }
+        function tabLight3(){
+            var light = document.getElementById("light3");
+            if(!flag3){
+                light.src = "img/on.gif";
+                flag3 = true;
+            }else {
+                light.src = "img/off.gif";
+                flag3 = false;
+            }
+
+        }
+        function tabLight2(){
+            var light = document.getElementById("light2");
+            if(!flag2){
+                light.src = "img/on.gif";
+                flag2 = true;
+            }else {
+                light.src = "img/off.gif";
+                flag2 = false;
+            }
+
+        }
+    </script>>
+</html>

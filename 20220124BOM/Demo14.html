@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>fakeBaidu</title>
+    </head>
+    <style>
+        #pic {
+            height: 130px;
+            width: 310px;
+
+        }
+        #search{
+            width:300px;
+            height:20px;
+            margin-left:560px;
+            border-radius: 5px;
+            border: 1px #4E6EF2 solid;
+
+        }
+        #jumpBtn{
+            height:26px;
+            background-color : #4E6EF2;
+            color : white;
+            border-radius: 5px;
+            border-color: #4E6EF2;
+        }
+
+
+    </style>
+    <body>
+        <div  align="center">
+            <img src="img/baidu.png"  id="pic">
+        </div>
+        <input type="text" id="search"/>
+        <button  id="jumpBtn">百度一下</button>
+
+    </body>
+    <script>
+        var pic = document.getElementById("pic");
+        var search = document.getElementById("search");
+        var jumpBtn = document.getElementById("jumpBtn");
+        pic.onclick = picJump;
+
+        jumpBtn.onclick = getInput;
+        function picJump() {
+            location.href="https://www.baidu.com";
+        }
+        function getInput(){
+            location.href = search.value;
+        }
+
+    </script>
+</html>

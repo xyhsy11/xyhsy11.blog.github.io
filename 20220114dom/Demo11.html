@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+
+    </head>
+    <style>
+        #light{
+            display: block;
+            margin: 200px auto;
+        }
+    </style>
+    <body>
+        <img src = "img/off.gif" id = "light">
+        <a href="https://www.baidu.com"></a>
+    </body>
+    <script>
+        var flag = false;
+
+        var light = document.getElementById("light");
+        light.onclick = tabLight;
+
+
+        function tabLight() {
+
+            if(flag){
+                light.src="img/off.gif";
+                flag = false;
+
+            }else{
+                light.src="img/on.gif";
+                location.href="https://www.baidu.com";
+                flag = true;
+            }
+        }
+
+    </script>
+</html>
