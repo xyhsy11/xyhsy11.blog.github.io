@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Hexo</title>
+  <meta name="description" content="今日内容：1. Servlet 2. HTTP协议 3. Request  Servlet：1. 概念 2. 步骤 3. 执行原理 4. 生命周期 5. Servlet3.0 注解配置 6. Servlet的体系结构         Servlet -- 接口         |     GenericServlet -- 抽象类         |     HttpServlet  -- 抽象类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="My Blog">
+<meta property="og:url" content="https://github.com/xyhsy11/xyhsy11.github.io/tree/master/servlet%E6%A1%88%E4%BE%8B/Servlet&HTTP&Request%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="My Blog">
+<meta property="og:description" content="今日内容：1. Servlet 2. HTTP协议 3. Request  Servlet：1. 概念 2. 步骤 3. 执行原理 4. 生命周期 5. Servlet3.0 注解配置 6. Servlet的体系结构         Servlet -- 接口         |     GenericServlet -- 抽象类         |     HttpServlet  -- 抽象类">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-12T13:13:20.494Z">
+<meta property="article:modified_time" content="2022-06-12T11:48:38.708Z">
+<meta property="article:author" content="Thomas">
+<meta name="twitter:card" content="summary">
+  <!-- Canonical links -->
+  <link rel="canonical" href="https://github.com/xyhsy11/xyhsy11.github.io/tree/master/servlet%E6%A1%88%E4%BE%8B/Servlet&HTTP&Request%E7%AC%94%E8%AE%B0/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="My Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+  
+  
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/xyhsy11" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">Thomas</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer &amp; Designer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Wuxi, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/xyhsy11" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/json%E6%95%B0%E6%8D%AE/" rel="tag">json数据</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/json%E6%95%B0%E6%8D%AE/" style="font-size: 13px;">json数据</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/06/">六月 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/05/">五月 2022</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/03/">三月 2022</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/02/">二月 2022</a><span class="archive-list-count">25</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">十二月 2021</a><span class="archive-list-count">18</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/09/">九月 2021</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">八月 2021</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/07/">七月 2021</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/06/">六月 2021</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/servlet%E6%A1%88%E4%BE%8B/Servlet&HTTP&Request%E7%AC%94%E8%AE%B0/" class="title">(no title)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-12T13:13:20.494Z" itemprop="datePublished">2022-06-12</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/servlet%E6%A1%88%E4%BE%8B/" class="title">servlet案例</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-12T13:12:24.000Z" itemprop="datePublished">2022-06-12</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/requestServlet-0/" class="title">requestServlet</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-06-11T12:48:12.000Z" itemprop="datePublished">2022-06-11</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/RequestServlet0529/login/" class="title">(no title)</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-05-29T03:41:28.416Z" itemprop="datePublished">2022-05-29</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/RequestServlet0529/" class="title">RequestServlet0529</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2022-05-29T03:40:31.000Z" itemprop="datePublished">2022-05-29</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-servlet案例/Servlet&amp;HTTP&amp;Request笔记" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/servlet%E6%A1%88%E4%BE%8B/Servlet&HTTP&Request%E7%AC%94%E8%AE%B0/" class="article-date">
+	  <time datetime="2022-06-12T13:13:20.494Z" itemprop="datePublished">2022-06-12</time>
+	</a>
+</span>
+        
+        
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/servlet%E6%A1%88%E4%BE%8B/Servlet&HTTP&Request%E7%AC%94%E8%AE%B0/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="今日内容："><a href="#今日内容：" class="headerlink" title="今日内容："></a>今日内容：</h1><pre><code>1. Servlet
+2. HTTP协议
+3. Request
+</code></pre>
+<h2 id="Servlet："><a href="#Servlet：" class="headerlink" title="Servlet："></a>Servlet：</h2><pre><code>1. 概念
+2. 步骤
+3. 执行原理
+4. 生命周期
+5. Servlet3.0 注解配置
+6. Servlet的体系结构    
+    Servlet -- 接口
+        |
+    GenericServlet -- 抽象类
+        |
+    HttpServlet  -- 抽象类
+
+    * GenericServlet：将Servlet接口中其他的方法做了默认空实现，只将service()方法作为抽象
+        * 将来定义Servlet类时，可以继承GenericServlet，实现service()方法即可
+
+    * HttpServlet：对http协议的一种封装，简化操作
+        1. 定义类继承HttpServlet
+        2. 复写doGet/doPost方法
+
+7. Servlet相关配置
+    1. urlpartten:Servlet访问路径
+        1. 一个Servlet可以定义多个访问路径 ： @WebServlet(&#123;&quot;/d4&quot;,&quot;/dd4&quot;,&quot;/ddd4&quot;&#125;)
+        2. 路径定义规则：
+            1. /xxx：路径匹配
+            2. /xxx/xxx:多层路径，目录结构
+            3. *.do：扩展名匹配
+</code></pre>
+<h2 id="HTTP："><a href="#HTTP：" class="headerlink" title="HTTP："></a>HTTP：</h2><pre><code>* 概念：Hyper Text Transfer Protocol 超文本传输协议
+    * 传输协议：定义了，客户端和服务器端通信时，发送数据的格式
+    * 特点：
+        1. 基于TCP/IP的高级协议
+        2. 默认端口号:80
+        3. 基于请求/响应模型的:一次请求对应一次响应
+        4. 无状态的：每次请求之间相互独立，不能交互数据
+
+    * 历史版本：
+        * 1.0：每一次请求响应都会建立新的连接
+        * 1.1：复用连接
+
+* 请求消息数据格式
+    1. 请求行
+        请求方式 请求url 请求协议/版本
+        GET /login.html    HTTP/1.1
+
+        * 请求方式：
+            * HTTP协议有7中请求方式，常用的有2种
+                * GET：
+                    1. 请求参数在请求行中，在url后。
+                    2. 请求的url长度有限制的
+                    3. 不太安全
+                * POST：
+                    1. 请求参数在请求体中
+                    2. 请求的url长度没有限制的
+                    3. 相对安全
+    2. 请求头：客户端浏览器告诉服务器一些信息
+        请求头名称: 请求头值
+        * 常见的请求头：
+            1. User-Agent：浏览器告诉服务器，我访问你使用的浏览器版本信息
+                * 可以在服务器端获取该头的信息，解决浏览器的兼容性问题
+
+            2. Referer：http://localhost/login.html
+                * 告诉服务器，我(当前请求)从哪里来？
+                    * 作用：
+                        1. 防盗链：
+                        2. 统计工作：
+    3. 请求空行
+        空行，就是用于分割POST请求的请求头，和请求体的。
+    4. 请求体(正文)：
+        * 封装POST请求消息的请求参数的
+
+    * 字符串格式：
+        POST /login.html    HTTP/1.1
+        Host: localhost
+        User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:60.0) Gecko/20100101 Firefox/60.0
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Accept-Encoding: gzip, deflate
+        Referer: http://localhost/login.html
+        Connection: keep-alive
+        Upgrade-Insecure-Requests: 1
+        
+        username=zhangsan    
+
+
+* 响应消息数据格式
+</code></pre>
+<h2 id="Request："><a href="#Request：" class="headerlink" title="Request："></a>Request：</h2><pre><code>1. request对象和response对象的原理
+    1. request和response对象是由服务器创建的。我们来使用它们
+    2. request对象是来获取请求消息，response对象是来设置响应消息
+
+2. request对象继承体系结构：    
+    ServletRequest        --    接口
+        |    继承
+    HttpServletRequest    -- 接口
+        |    实现
+    org.apache.catalina.connector.RequestFacade 类(tomcat)
+
+3. request功能：
+    1. 获取请求消息数据
+        1. 获取请求行数据
+            * GET /day14/demo1?name=zhangsan HTTP/1.1
+            * 方法：
+                1. 获取请求方式 ：GET
+                    * String getMethod()  
+                2. (*)获取虚拟目录：/day14
+                    * String getContextPath()
+                3. 获取Servlet路径: /demo1
+                    * String getServletPath()
+                4. 获取get方式请求参数：name=zhangsan
+                    * String getQueryString()
+                5. (*)获取请求URI：/day14/demo1
+                    * String getRequestURI():        /day14/demo1
+                    * StringBuffer getRequestURL()  :http://localhost/day14/demo1
+
+                    * URL:统一资源定位符 ： http://localhost/day14/demo1    中华人民共和国
+                    * URI：统一资源标识符 : /day14/demo1                    共和国
+                
+                6. 获取协议及版本：HTTP/1.1
+                    * String getProtocol()
+
+                7. 获取客户机的IP地址：
+                    * String getRemoteAddr()
+                
+        2. 获取请求头数据
+            * 方法：
+                * (*)String getHeader(String name):通过请求头的名称获取请求头的值
+                * Enumeration&lt;String&gt; getHeaderNames():获取所有的请求头名称
+            
+        3. 获取请求体数据:
+            * 请求体：只有POST请求方式，才有请求体，在请求体中封装了POST请求的请求参数
+            * 步骤：
+                1. 获取流对象
+                    *  BufferedReader getReader()：获取字符输入流，只能操作字符数据
+                    *  ServletInputStream getInputStream()：获取字节输入流，可以操作所有类型数据
+                        * 在文件上传知识点后讲解
+
+                2. 再从流对象中拿数据
+            
+            
+    2. 其他功能：
+        1. 获取请求参数通用方式：不论get还是post请求方式都可以使用下列方法来获取请求参数
+            1. String getParameter(String name):根据参数名称获取参数值    username=zs&amp;password=123
+            2. String[] getParameterValues(String name):根据参数名称获取参数值的数组  hobby=xx&amp;hobby=game
+            3. Enumeration&lt;String&gt; getParameterNames():获取所有请求的参数名称
+            4. Map&lt;String,String[]&gt; getParameterMap():获取所有参数的map集合
+
+            * 中文乱码问题：
+                * get方式：tomcat 8 已经将get方式乱码问题解决了
+                * post方式：会乱码
+                    * 解决：在获取参数前，设置request的编码request.setCharacterEncoding(&quot;utf-8&quot;);
+        
+                
+        2. 请求转发：一种在服务器内部的资源跳转方式
+            1. 步骤：
+                1. 通过request对象获取请求转发器对象：RequestDispatcher getRequestDispatcher(String path)
+                2. 使用RequestDispatcher对象来进行转发：forward(ServletRequest request, ServletResponse response) 
+
+            2. 特点：
+                1. 浏览器地址栏路径不发生变化
+                2. 只能转发到当前服务器内部资源中。
+                3. 转发是一次请求
+
+
+        3. 共享数据：
+            * 域对象：一个有作用范围的对象，可以在范围内共享数据
+            * request域：代表一次请求的范围，一般用于请求转发的多个资源中共享数据
+            * 方法：
+                1. void setAttribute(String name,Object obj):存储数据
+                2. Object getAttitude(String name):通过键获取值
+                3. void removeAttribute(String name):通过键移除键值对
+
+        4. 获取ServletContext：
+            * ServletContext getServletContext()
+        
+</code></pre>
+<h2 id="案例：用户登录"><a href="#案例：用户登录" class="headerlink" title="案例：用户登录"></a>案例：用户登录</h2><pre><code>* 用户登录案例需求：
+    1.编写login.html登录页面
+        username &amp; password 两个输入框
+    2.使用Druid数据库连接池技术,操作mysql，day14数据库中user表
+    3.使用JdbcTemplate技术封装JDBC
+    4.登录成功跳转到SuccessServlet展示：登录成功！用户名,欢迎您
+    5.登录失败跳转到FailServlet展示：登录失败，用户名或密码错误
+
+
+* 分析
+
+* 开发步骤
+    1. 创建项目，导入html页面，配置文件，jar包
+    2. 创建数据库环境
+        CREATE DATABASE day14;
+        USE day14;
+        CREATE TABLE USER(
+        
+            id INT PRIMARY KEY AUTO_INCREMENT,
+            username VARCHAR(32) UNIQUE NOT NULL,
+            PASSWORD VARCHAR(32) NOT NULL
+        );
+
+    3. 创建包cn.itcast.domain,创建类User
+        package cn.itcast.domain;
+        /**
+         * 用户的实体类
+         */
+        public class User &#123;
+        
+            private int id;
+            private String username;
+            private String password;
+        
+        
+            public int getId() &#123;
+                return id;
+            &#125;
+        
+            public void setId(int id) &#123;
+                this.id = id;
+            &#125;
+        
+            public String getUsername() &#123;
+                return username;
+            &#125;
+        
+            public void setUsername(String username) &#123;
+                this.username = username;
+            &#125;
+        
+            public String getPassword() &#123;
+                return password;
+            &#125;
+        
+            public void setPassword(String password) &#123;
+                this.password = password;
+            &#125;
+        
+            @Override
+            public String toString() &#123;
+                return &quot;User&#123;&quot; +
+                        &quot;id=&quot; + id +
+                        &quot;, username=&#39;&quot; + username + &#39;\&#39;&#39; +
+                        &quot;, password=&#39;&quot; + password + &#39;\&#39;&#39; +
+                        &#39;&#125;&#39;;
+            &#125;
+        &#125;
+    4. 创建包cn.itcast.util,编写工具类JDBCUtils
+        package cn.itcast.util;
+
+        import com.alibaba.druid.pool.DruidDataSourceFactory;
+        
+        import javax.sql.DataSource;
+        import javax.xml.crypto.Data;
+        import java.io.IOException;
+        import java.io.InputStream;
+        import java.sql.Connection;
+        import java.sql.SQLException;
+        import java.util.Properties;
+        
+        /**
+         * JDBC工具类 使用Durid连接池
+         */
+        public class JDBCUtils &#123;
+        
+            private static DataSource ds ;
+        
+            static &#123;
+        
+                try &#123;
+                    //1.加载配置文件
+                    Properties pro = new Properties();
+                    //使用ClassLoader加载配置文件，获取字节输入流
+                    InputStream is = JDBCUtils.class.getClassLoader().getResourceAsStream(&quot;druid.properties&quot;);
+                    pro.load(is);
+        
+                    //2.初始化连接池对象
+                    ds = DruidDataSourceFactory.createDataSource(pro);
+        
+                &#125; catch (IOException e) &#123;
+                    e.printStackTrace();
+                &#125; catch (Exception e) &#123;
+                    e.printStackTrace();
+                &#125;
+            &#125;
+        
+            /**
+             * 获取连接池对象
+             */
+            public static DataSource getDataSource()&#123;
+                return ds;
+            &#125;
+        
+        
+            /**
+             * 获取连接Connection对象
+             */
+            public static Connection getConnection() throws SQLException &#123;
+                return  ds.getConnection();
+            &#125;
+        &#125;
+    5. 创建包cn.itcast.dao,创建类UserDao,提供login方法
+        
+        package cn.itcast.dao;
+
+        import cn.itcast.domain.User;
+        import cn.itcast.util.JDBCUtils;
+        import org.springframework.dao.DataAccessException;
+        import org.springframework.jdbc.core.BeanPropertyRowMapper;
+        import org.springframework.jdbc.core.JdbcTemplate;
+        
+        /**
+         * 操作数据库中User表的类
+         */
+        public class UserDao &#123;
+        
+            //声明JDBCTemplate对象共用
+            private JdbcTemplate template = new JdbcTemplate(JDBCUtils.getDataSource());
+        
+            /**
+             * 登录方法
+             * @param loginUser 只有用户名和密码
+             * @return user包含用户全部数据,没有查询到，返回null
+             */
+            public User login(User loginUser)&#123;
+                try &#123;
+                    //1.编写sql
+                    String sql = &quot;select * from user where username = ? and password = ?&quot;;
+                    //2.调用query方法
+                    User user = template.queryForObject(sql,
+                            new BeanPropertyRowMapper&lt;User&gt;(User.class),
+                            loginUser.getUsername(), loginUser.getPassword());
+        
+        
+                    return user;
+                &#125; catch (DataAccessException e) &#123;
+                    e.printStackTrace();//记录日志
+                    return null;
+                &#125;
+            &#125;
+        &#125;
+    
+    6. 编写cn.itcast.web.servlet.LoginServlet类
+        package cn.itcast.web.servlet;
+
+        import cn.itcast.dao.UserDao;
+        import cn.itcast.domain.User;
+        
+        import javax.servlet.ServletException;
+        import javax.servlet.annotation.WebServlet;
+        import javax.servlet.http.HttpServlet;
+        import javax.servlet.http.HttpServletRequest;
+        import javax.servlet.http.HttpServletResponse;
+        import java.io.IOException;
+        
+        
+        @WebServlet(&quot;/loginServlet&quot;)
+        public class LoginServlet extends HttpServlet &#123;
+        
+        
+            @Override
+            protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
+                //1.设置编码
+                req.setCharacterEncoding(&quot;utf-8&quot;);
+                //2.获取请求参数
+                String username = req.getParameter(&quot;username&quot;);
+                String password = req.getParameter(&quot;password&quot;);
+                //3.封装user对象
+                User loginUser = new User();
+                loginUser.setUsername(username);
+                loginUser.setPassword(password);
+        
+                //4.调用UserDao的login方法
+                UserDao dao = new UserDao();
+                User user = dao.login(loginUser);
+        
+                //5.判断user
+                if(user == null)&#123;
+                    //登录失败
+                    req.getRequestDispatcher(&quot;/failServlet&quot;).forward(req,resp);
+                &#125;else&#123;
+                    //登录成功
+                    //存储数据
+                    req.setAttribute(&quot;user&quot;,user);
+                    //转发
+                    req.getRequestDispatcher(&quot;/successServlet&quot;).forward(req,resp);
+                &#125;
+        
+            &#125;
+        
+            @Override
+            protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException &#123;
+                this.doGet(req,resp);
+            &#125;
+        &#125;
+
+    7. 编写FailServlet和SuccessServlet类
+        @WebServlet(&quot;/successServlet&quot;)
+        public class SuccessServlet extends HttpServlet &#123;
+            protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;
+                //获取request域中共享的user对象
+                User user = (User) request.getAttribute(&quot;user&quot;);
+        
+                if(user != null)&#123;
+                    //给页面写一句话
+        
+                    //设置编码
+                    response.setContentType(&quot;text/html;charset=utf-8&quot;);
+                    //输出
+                    response.getWriter().write(&quot;登录成功！&quot;+user.getUsername()+&quot;,欢迎您&quot;);
+                &#125;
+        
+        
+            &#125;        
+
+
+        @WebServlet(&quot;/failServlet&quot;)
+        public class FailServlet extends HttpServlet &#123;
+            protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;
+                //给页面写一句话
+        
+                //设置编码
+                response.setContentType(&quot;text/html;charset=utf-8&quot;);
+                //输出
+                response.getWriter().write(&quot;登录失败，用户名或密码错误&quot;);
+        
+            &#125;
+        
+            protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException &#123;
+                this.doPost(request,response);
+            &#125;
+        &#125;
+
+
+
+    8. login.html中form表单的action路径的写法
+        * 虚拟目录+Servlet的资源路径
+
+    9. BeanUtils工具类，简化数据封装
+        * 用于封装JavaBean的
+        1. JavaBean：标准的Java类
+            1. 要求：
+                1. 类必须被public修饰
+                2. 必须提供空参的构造器
+                3. 成员变量必须使用private修饰
+                4. 提供公共setter和getter方法
+            2. 功能：封装数据
+
+
+        2. 概念：
+            成员变量：
+            属性：setter和getter方法截取后的产物
+                例如：getUsername() --&gt; Username--&gt; username
+
+
+        3. 方法：
+            1. setProperty()
+            2. getProperty()
+            3. populate(Object obj , Map map):将map集合的键值对信息，封装到对应的JavaBean对象中
+</code></pre>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="https://github.com/xyhsy11/xyhsy11.github.io/tree/master/servlet%E6%A1%88%E4%BE%8B/Servlet&HTTP&Request%E7%AC%94%E8%AE%B0/" title="" target="_blank" rel="external">https://github.com/xyhsy11/xyhsy11.github.io/tree/master/servlet案例/Servlet&HTTP&Request笔记/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/xyhsy11" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/xyhsy11" target="_blank"><span class="text-dark">Thomas</span><small class="ml-1x">Web Developer &amp; Designer</small></a></h3>
+        <div>个人简介。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/servlet%E6%A1%88%E4%BE%8B/" title="servlet案例"><span>下一篇&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-fancy btn-donate pop-onhover bg-gradient-warning" data-toggle="modal" data-target="#donateModal"><span>赏</span></button>
+  <!-- <div class="wave-icon wave-icon-danger btn-donate" data-toggle="modal" data-target="#donateModal">
+    <div class="wave-circle"><span class="icon"><i class="icon icon-bill"></i></span></div>
+  </div> -->
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+<!-- Modal -->
+<div class="modal modal-center modal-small modal-xs-full fade" id="donateModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content donate">
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div class="modal-body">
+        <div class="donate-box">
+          <div class="donate-head">
+            <p>感谢您的支持，我会继续努力的!</p>
+          </div>
+          <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="alipay">
+              <div class="donate-payimg">
+                <img src="/images/donate/alipayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开支付宝扫一扫，即可进行扫码打赏哦</p>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="wechatpay">
+              <div class="donate-payimg">
+                <img src="/images/donate/wechatpayimg.png" alt="扫码支持" title="扫一扫" />
+              </div>
+              <p class="text-muted mv">扫码打赏，你说多少就多少</p>
+              <p class="text-grey">打开微信扫一扫，即可进行扫码打赏哦</p>
+            </div>
+          </div>
+          <div class="donate-footer">
+            <ul class="nav nav-tabs nav-justified" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#alipay" id="alipay-tab" role="tab" data-toggle="tab" aria-controls="alipay" aria-expanded="true"><i class="icon icon-alipay"></i> 支付宝</a>
+              </li>
+              <li role="presentation" class="">
+                <a href="#wechatpay" role="tab" id="wechatpay-tab" data-toggle="tab" aria-controls="wechatpay" aria-expanded="false"><i class="icon icon-wepay"></i> 微信支付</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/xyhsy11" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/atom.xml" target="_blank" title="Rss" data-toggle=tooltip data-placement=top><i class="icon icon-rss"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/xyhsy11" target="_blank"> xyhsy11 </a>base on <a href="https://www.hexo.io" target="_blank">hexo</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+
+<script src="/js/plugin.min.js"></script>
+
+
+<script src="/js/application.js"></script>
+
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>
